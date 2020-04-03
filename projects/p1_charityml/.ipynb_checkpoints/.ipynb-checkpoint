@@ -155,7 +155,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [
     {
@@ -231,7 +231,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -275,7 +275,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -313,7 +313,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [
     {
@@ -501,7 +501,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 8,
    "metadata": {
     "scrolled": true
    },
@@ -542,14 +542,21 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": true
-   },
-   "outputs": [],
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Training set has 36177 samples.\n",
+      "Testing set has 9045 samples.\n"
+     ]
+    }
+   ],
    "source": [
     "# Import train_test_split\n",
-    "from sklearn.cross_validation import train_test_split\n",
+    "from sklearn.model_selection import train_test_split\n",
     "\n",
     "# Split the 'features' and 'income' data into training and testing sets\n",
     "X_train, X_test, y_train, y_test = train_test_split(features_final, \n",
@@ -619,11 +626,33 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "collapsed": true
-   },
-   "outputs": [],
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<=50K    0.752156\n",
+      ">50K     0.247844\n",
+      "dtype: float64\n",
+      "<=50K    1.0\n",
+      ">50K     1.0\n",
+      "dtype: float64\n",
+      "<=50K    0.752156\n",
+      ">50K     0.247844\n",
+      "dtype: float64\n",
+      "<=50K    0.791384\n",
+      ">50K     0.291729\n",
+      "dtype: float64\n",
+      "Naive Predictor: [Accuracy score: <=50K    0.752156\n",
+      ">50K     0.247844\n",
+      "dtype: float64, F-score: <=50K    0.791384\n",
+      ">50K     0.291729\n",
+      "dtype: float64]\n"
+     ]
+    }
+   ],
    "source": [
     "'''\n",
     "TP = np.sum(income) # Counting the ones as this is the naive case. Note that 'income' is the 'income_raw' data \n",
@@ -634,15 +663,17 @@
     "FN = 0 # No predicted negatives in the naive case\n",
     "'''\n",
     "# TODO: Calculate accuracy, precision and recall\n",
-    "accuracy = None\n",
-    "recall = None\n",
-    "precision = None\n",
-    "\n",
+    "accuracy = np.sum(income)/income.count()\n",
+    "print(accuracy)\n",
+    "recall = np.sum(income)/(np.sum(income)+0)\n",
+    "print(recall)\n",
+    "precision = np.sum(income)/(np.sum(income)+(income.count()-np.sum(income)))\n",
+    "print(precision)\n",
     "# TODO: Calculate F-score using the formula above for beta = 0.5 and correct values for precision and recall.\n",
-    "fscore = None\n",
-    "\n",
+    "fscore = (1+0.5**2)*(precision * recall)/((0.5**2 * precision)+recall)\n",
+    "print(fscore)\n",
     "# Print the results \n",
-    "print(\"Naive Predictor: [Accuracy score: {:.4f}, F-score: {:.4f}]\".format(accuracy, fscore))"
+    "print(\"Naive Predictor: [Accuracy score: {}, F-score: {}]\".format(accuracy, fscore))"
    ]
   },
   {
